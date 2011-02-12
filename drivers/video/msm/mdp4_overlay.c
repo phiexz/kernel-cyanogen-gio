@@ -1250,7 +1250,7 @@ struct mdp4_overlay_pipe *mdp4_overlay_pipe_alloc(
 		return pipe;
 	}
 
-	pr_info("%s: ptype=%d mixer=%d req_share=%d FAILED\n",
+	pr_debug("%s: ptype=%d mixer=%d req_share=%d FAILED\n",
 			__func__, ptype, mixer, req_share);
 
 	return NULL;
@@ -1263,7 +1263,7 @@ void mdp4_overlay_pipe_free(struct mdp4_overlay_pipe *pipe)
 	uint32 ptype, num, ndx;
 	struct mdp4_pipe_desc  *pd;
 
-	pr_info("%s: pipe=%x ndx=%d\n", __func__,
+	pr_debug("%s: pipe=%x ndx=%d\n", __func__,
 				(int)pipe, pipe->pipe_ndx);
 	pd = &ctrl->ov_pipe[pipe->pipe_num];
 	if (pd->ref_cnt) {
@@ -1462,7 +1462,7 @@ static int mdp4_overlay_req2pipe(struct mdp_overlay *req, int mixer,
 		pipe->pipe_used++;
 		pipe->mixer_num = mixer;
 		pipe->mixer_stage = req->z_order + MDP4_MIXER_STAGE0;
-		pr_info("%s: zorder=%d pipe ndx=%d num=%d\n", __func__,
+		pr_debug("%s: zorder=%d pipe ndx=%d num=%d\n", __func__,
 			req->z_order, pipe->pipe_ndx, pipe->pipe_num);
 
 	}
