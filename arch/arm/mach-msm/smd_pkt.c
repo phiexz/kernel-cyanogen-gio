@@ -82,24 +82,28 @@ static uint smd_pkt_modem_wait;
 module_param_named(modem_wait_timeout, smd_pkt_modem_wait,
 		   uint, S_IRUGO | S_IWUSR | S_IWGRP);
 
+static int msm_smd_pkt_debug_mask;
+module_param_named(debug_mask, msm_smd_pkt_debug_mask,
+		int, S_IRUGO | S_IWUSR | S_IWGRP);
 #define DEBUG
-#undef DEBUG
 
 #ifdef DEBUG
 #define D_DUMP_BUFFER(prestr, cnt, buf) \
 do { \
-	int i; \
-	printk(KERN_ERR "%s", prestr); \
-	for (i = 0; i < cnt; i++) \
-		printk(KERN_ERR "%.2x", buf[i]); \
-	printk(KERN_ERR "\n"); \
+	if (msm_smd_pkt_debug_mask) { \
+		int i; \
+		printk(KERN_ERR "%s", prestr); \
+		for (i = 0; i < cnt; i++) \
+			printk(KERN_ERR "%.2x", buf[i]); \
+		printk(KERN_ERR "\n"); \
+	} \
 } while (0)
 #else
 #define D_DUMP_BUFFER(prestr, cnt, buf) do {} while (0)
 #endif
 
 #ifdef DEBUG
-#define D(x...) printk(x)
+#define D(x...) if (msm_smd_pkt_debug_mask) printk(x)
 #else
 #define D(x...) do {} while (0)
 #endif
@@ -131,15 +135,15 @@ static int modem_notifier(struct notifier_block *this,
 
 	switch (code) {
 	case MODEM_NOTIFIER_START_RESET:
-		printk(KERN_ERR "Notify: start reset ch:%i\n",
+		D(KERN_ERR "Notify: start reset ch:%i\n",
 		       smd_pkt_devp->i);
 		clean_and_signal(smd_pkt_devp);
 		break;
 	case MODEM_NOTIFIER_END_RESET:
-		printk(KERN_ERR "Notify: end reset\n");
+		D(KERN_ERR "Notify: end reset\n");
 		break;
 	default:
-		printk(KERN_ERR "Notify: general\n");
+		D(KERN_ERR "Notify: general\n");
 		break;
 	}
 	return NOTIFY_DONE;
@@ -743,7 +747,7 @@ static int __init smd_pkt_init(void)
 			goto error2;
 	}
 
-	printk(KERN_INFO "SMD Packet Port Driver Initialized.\n");
+	D(KERN_INFO "SMD Packet Port Driver Initialized.\n");
 	return 0;
 
  error2:
