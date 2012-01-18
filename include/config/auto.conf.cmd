@@ -98,7 +98,6 @@ deps_config := \
 	drivers/staging/batman-adv/Kconfig \
 	drivers/staging/wlags49_h25/Kconfig \
 	drivers/staging/wlags49_h2/Kconfig \
-	drivers/staging/ramzswap/Kconfig \
 	drivers/staging/iio/trigger/Kconfig \
 	drivers/staging/iio/light/Kconfig \
 	drivers/staging/iio/imu/Kconfig \

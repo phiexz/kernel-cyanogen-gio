@@ -1394,6 +1394,14 @@ config BT_MSM_PINTEST
 	  Bluetooth MSM Pin Connectivity test module.
 	  This driver provides support for verifying the MSM to BT pin
 	  connectivity.
+
+config OVERCLOCK_AHB
+	bool "Overclock the AHB-bus with 50% for all frequencies from 480MHz and above."
+	default n
+	help
+	  Increases the speed of memory read/writes but can cause instability.
+	  If unsure, choose N.
+
 endif
 # [ Israel_NetQ 2011.06.30  For Israel B model
 config SAMSUNG_LTN_COMMON

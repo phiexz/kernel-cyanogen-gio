@@ -348,7 +348,7 @@ static struct android_usb_product usb_products[] = {
 static struct usb_mass_storage_platform_data mass_storage_pdata = {
 	.nluns		= 1,
 	.vendor		= "SAMSUNG ",
-	.product        = "GT-S5660V Card",
+	.product        = "GT-S5660 Card",
 	.release	= 0x0100,
 };
 
@@ -3204,7 +3204,7 @@ MACHINE_START(MSM7X27_SURF, "GT-S5660T Board")
 	.timer		= &msm_timer,
 MACHINE_END
 #else
-MACHINE_START(MSM7X27_SURF, "GT-S5660V Board")
+MACHINE_START(MSM7X27_SURF, "GT-S5660 Board")
 #ifdef CONFIG_MSM_DEBUG_UART
 	.phys_io        = MSM_DEBUG_UART_PHYS,
 	.io_pg_offst    = ((MSM_DEBUG_UART_BASE) >> 18) & 0xfffc,

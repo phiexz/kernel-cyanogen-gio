@@ -274,6 +274,7 @@
 0x00000000	system_state	vmlinux	EXPORT_SYMBOL
 0x00000000	hidinput_connect	vmlinux	EXPORT_SYMBOL_GPL
 0x00000000	v4l2_int_ioctl_0	vmlinux	EXPORT_SYMBOL_GPL
+0x00000000	corgibl_limit_intensity	vmlinux	EXPORT_SYMBOL
 0x00000000	splice_from_pipe_next	vmlinux	EXPORT_SYMBOL
 0x00000000	csum_partial_copy_fromiovecend	vmlinux	EXPORT_SYMBOL
 0x00000000	videobuf_to_pmem_contig	vmlinux	EXPORT_SYMBOL_GPL
