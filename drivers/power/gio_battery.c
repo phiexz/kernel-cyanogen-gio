@@ -1181,14 +1181,14 @@ int calculate_batt_voltage(int vbatt_adc)
 {
 	int batt_volt = 0;
 
-	static int BatMax = 0;
-	static int BatMin = 0;
-	int BatSum = 0;
-	static int BatCount = 0;
-	static int BatAvg = 1;
-	static int batt_val[BATT_BUF] = {0,};
+	//static int BatMax = 0;
+	//static int BatMin = 0;
+	//int BatSum = 0;
+	//static int BatCount = 0;
+	//static int BatAvg = 1;
+	//static int batt_val[BATT_BUF] = {0,};
 	static int prevVal = 0;
-	int i = 0;
+	//int i = 0;
 
 #ifdef __CONTROL_CHARGING_SUDDEN_LEVEL_UP__
 	if(!prevVal)
@@ -1202,12 +1202,12 @@ int calculate_batt_voltage(int vbatt_adc)
 			if( prevVal < (vbatt_adc-BATT_CAL_CHG))
 			{	
 				vbatt_adc = vbatt_adc-BATT_CAL_CHG;		
-				printk("[Battery] vbatt_adc-BATT_CAL_CHG \n");
+				//printk("[Battery] vbatt_adc-BATT_CAL_CHG \n");
 			}	
 			else
 			{
 				vbatt_adc = prevVal;
-				printk("[Battery] chg_en & prevVal \n");
+				//printk("[Battery] chg_en & prevVal \n");
 			}	
 		}
 		else
@@ -2909,15 +2909,15 @@ static int msm_batt_send_event(u32 type_of_event)
 	spin_lock_irqsave(&msm_batt_info.lock, flags);
 
 
-	if (type_of_event & SUSPEND_EVENT)
-		printk(KERN_INFO "%s() : Suspend event ocurred."
-				"events = %08x\n", __func__, type_of_event);
-	else if (type_of_event & RESUME_EVENT)
-		printk(KERN_INFO "%s() : Resume event ocurred."
-				"events = %08x\n", __func__, type_of_event);
-	else if (type_of_event & CLEANUP_EVENT)
-		printk(KERN_INFO "%s() : Cleanup event ocurred."
-				"events = %08x\n", __func__, type_of_event);
+	if (type_of_event & SUSPEND_EVENT){}
+		//printk(KERN_INFO "%s() : Suspend event ocurred."
+		//		"events = %08x\n", __func__, type_of_event);
+	else if (type_of_event & RESUME_EVENT){}
+		//printk(KERN_INFO "%s() : Resume event ocurred."
+		//		"events = %08x\n", __func__, type_of_event);
+	else if (type_of_event & CLEANUP_EVENT){}
+		//printk(KERN_INFO "%s() : Cleanup event ocurred."
+		//		"events = %08x\n", __func__, type_of_event);
 	else {
 		printk(KERN_ERR "%s() : Unknown event ocurred."
 				"events = %08x\n", __func__, type_of_event);
@@ -2954,8 +2954,8 @@ static int msm_batt_send_event(u32 type_of_event)
 
 		atomic_set(&msm_batt_info.event_handled, 0);
 	} else {
-		printk(KERN_INFO "%s(): Battery call Back thread not Started.",
-				__func__);
+		//printk(KERN_INFO "%s(): Battery call Back thread not Started.",
+		//		__func__);
 
 		atomic_set(&msm_batt_info.handle_event, 1);
 		spin_unlock_irqrestore(&msm_batt_info.lock, flags);
@@ -3037,24 +3037,24 @@ void msm_batt_early_suspend(struct early_suspend *h)
 {
 	int rc;
 
-	printk(KERN_INFO "%s(): going to early suspend\n", __func__);
+	//printk(KERN_INFO "%s(): going to early suspend\n", __func__);
 
 	rc = msm_batt_send_event(SUSPEND_EVENT);
 
-	printk(KERN_INFO "%s(): Handled early suspend event."
-	       " rc = %d\n", __func__, rc);
+	//printk(KERN_INFO "%s(): Handled early suspend event."
+	//       " rc = %d\n", __func__, rc);
 }
 
 void msm_batt_late_resume(struct early_suspend *h)
 {
 	int rc;
 
-	printk(KERN_INFO "%s(): going to resume\n", __func__);
+	//printk(KERN_INFO "%s(): going to resume\n", __func__);
 
 	rc = msm_batt_send_event(RESUME_EVENT);
 
-	printk(KERN_INFO "%s(): Handled Late resume event."
-	       " rc = %d\n", __func__, rc);
+	//printk(KERN_INFO "%s(): Handled Late resume event."
+	//       " rc = %d\n", __func__, rc);
 }
 #endif
 

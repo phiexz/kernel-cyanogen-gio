@@ -201,8 +201,8 @@ config MACH_LUCAS
 	default n
 	bool "Lucas"
 	help
-	  Support for the Samsung Lucas board.	  	  
-	  
+	  Support for the Samsung Lucas board.	  
+
 config BOARD_REVISION
 	hex "Select H/W Revision"
 	depends on MACH_EUROPA || MACH_CALLISTO || MACH_COOPER || MACH_GIO || MACH_BENI || MACH_TASS || MACH_TASSDT || MACH_LUCAS

@@ -796,7 +796,7 @@ static int synaptics_ts_suspend(struct i2c_client *client, pm_message_t mesg)
 	int ret;
 	struct synaptics_ts_data *ts = i2c_get_clientdata(client);
 	struct vreg *vreg_touch;
-	printk("[TSP] %s+\n", __func__ );
+	//printk("[TSP] %s+\n", __func__ );
 
 	vreg_touch = vreg_get(NULL, "ldo6");
 
@@ -851,7 +851,7 @@ static int synaptics_ts_resume(struct i2c_client *client)
 	uint8_t i2c_addr = 0x1D;
 	uint8_t buf[1];
 
-	printk("[TSP] %s+\n", __func__ );
+	//printk("[TSP] %s+\n", __func__ );
 	if( touch_present )
 	{
 
