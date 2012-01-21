@@ -1102,6 +1102,7 @@ static int msm_fb_register(struct msm_fb_data_type *mfd)
 		var->transp.offset = 24;
 		var->transp.length = 8;
 		bpp = 4;
+		var->reserved[4] = 60;
 		break;
 
 	case MDP_RGBA_8888:
