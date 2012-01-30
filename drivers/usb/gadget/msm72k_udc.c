@@ -831,10 +831,6 @@ static void handle_setup(struct usb_info *ui)
 	u8 hnp;
 	unsigned long flags;
 #endif
-	/* USB : Add delay 10ms before fetching setup
-	 * packet to allow write from hardware to system memory
-	 */
-	udelay(10);
 
 	memcpy(&ctl, ui->ep0out.head->setup_data, sizeof(ctl));
 	writel(EPT_RX(0), USB_ENDPTSETUPSTAT);
