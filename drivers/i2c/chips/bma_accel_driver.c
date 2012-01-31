@@ -867,6 +867,12 @@ static ssize_t poll_delay_store(struct device *dev,struct device_attribute *attr
 	err = strict_strtoll(buf, 10, &new_delay);
 	if (err < 0)
 		return err;
+	
+	/* HACK: workaround to prevent apps such as Google Maps 6.x from polling sensors excessively.
+	 * Please let me know if there's a better way to do this! -psyke83 */
+	if (new_delay < 10000000 ) {
+	  new_delay = 10000000;
+	}
 
 	printk("new delay = %lldns, old delay = %lldns\n",
 		    new_delay, ktime_to_ns(g_bma222->acc_poll_delay));
