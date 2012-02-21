@@ -192,7 +192,7 @@ export KBUILD_BUILDHOST := $(SUBARCH)
 #CROSS_COMPILE	?=
 #CROSS_COMPILE	?= $(CONFIG_CROSS_COMPILE:"%"=%)
 ARCH            =arm
-CROSS_COMPILE   = /home/dhiika/source/linaro/bin/arm-linux-gnueabi-
+CROSS_COMPILE   = /home/dhiika/source/prebuilt/Sourcery_G++/bin/arm-none-eabi-
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
