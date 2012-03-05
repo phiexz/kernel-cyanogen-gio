@@ -84,3 +84,4 @@ static inline void frontswap_flush_area(unsigned type)
 }
 
 #endif /* _LINUX_FRONTSWAP_H */
+

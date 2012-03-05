@@ -1,4 +1,4 @@
-#
+co#
 # Makefile for the Linux kernel device drivers.
 #
 # 15 Sep 2000, Christoph Hellwig <hch@infradead.org>
@@ -119,4 +119,4 @@ obj-y				+= platform/
 obj-y				+= ieee802154/
 obj-y				+= dpram/
 #obj-$(CONFIG_MSM_PARAM)	+= param/
-obj-y				+= compcache/
+#obj-y				+= compcache/

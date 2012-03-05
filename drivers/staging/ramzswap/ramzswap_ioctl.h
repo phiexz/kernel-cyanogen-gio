@@ -48,3 +48,4 @@ struct ramzswap_ioctl_stats {
 #define RZSIO_RESET		_IO('z', 5)
 
 #endif
+

@@ -986,6 +986,8 @@ struct net_device {
 	struct timer_list	watchdog_timer;
 
 	/* Number of references to this device */
+        //int __percpu            *pcpu_refcnt;
+	  /* Number of references to this device */
 	atomic_t		refcnt ____cacheline_aligned_in_smp;
 
 	/* delayed register/unregister */

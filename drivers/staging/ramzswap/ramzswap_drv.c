@@ -24,6 +24,7 @@
 #include <linux/genhd.h>
 #include <linux/highmem.h>
 #include <linux/lzo.h>
+#include <linux/slab.h>
 #include <linux/string.h>
 #include <linux/swap.h>
 #include <linux/swapops.h>
@@ -1557,3 +1558,4 @@ module_exit(ramzswap_exit);
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_AUTHOR("Nitin Gupta <ngupta@vflare.org>");
 MODULE_DESCRIPTION("Compressed RAM Based Swap Device");
+
