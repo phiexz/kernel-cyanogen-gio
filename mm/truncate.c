@@ -52,7 +52,7 @@ void do_invalidatepage(struct page *page, unsigned long offset)
 static inline void truncate_partial_page(struct page *page, unsigned partial)
 {
 	zero_user_segment(page, partial, PAGE_CACHE_SIZE);
-        cleancache_flush_page(page->mapping, page);
+	cleancache_flush_page(page->mapping, page);
 	if (page_has_private(page))
 		do_invalidatepage(page, partial);
 }
@@ -493,7 +493,8 @@ int invalidate_inode_pages2_range(struct address_space *mapping,
 		mem_cgroup_uncharge_end();
 		cond_resched();
 	}
-        cleancache_flush_inode(mapping);
+
+	cleancache_flush_inode(mapping);
 	return ret;
 }
 EXPORT_SYMBOL_GPL(invalidate_inode_pages2_range);

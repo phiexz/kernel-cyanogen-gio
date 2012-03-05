@@ -121,9 +121,9 @@ void __remove_from_page_cache(struct page *page)
 	struct address_space *mapping = page->mapping;
 
         if (PageUptodate(page) && PageMappedToDisk(page))
-                 cleancache_put_page(page);
+            cleancache_put_page(page);
         else
-                 cleancache_flush_page(mapping, page);
+            cleancache_flush_page(mapping, page);
 
 	radix_tree_delete(&mapping->page_tree, page->index);
 	page->mapping = NULL;
@@ -2209,7 +2209,7 @@ struct page *grab_cache_page_write_begin(struct address_space *mapping,
 		gfp_notmask = __GFP_FS;
 repeat:
 	page = find_lock_page(mapping, index);
-	if (likely(page))
+	if (page)
 		return page;
 
 	page = __page_cache_alloc(mapping_gfp_mask(mapping) & ~gfp_notmask);

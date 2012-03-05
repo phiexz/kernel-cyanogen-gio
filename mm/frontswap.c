@@ -329,3 +329,4 @@ static void __exit exit_frontswap(void)
 
 module_init(init_frontswap);
 module_exit(exit_frontswap);
+

@@ -82,10 +82,10 @@ pgprot_t vm_get_page_prot(unsigned long vm_flags)
 }
 EXPORT_SYMBOL(vm_get_page_prot);
 
-int sysctl_overcommit_memory = OVERCOMMIT_GUESS;  /* heuristic overcommit */
-int sysctl_overcommit_ratio = 50;	/* default is 50% */
+int sysctl_overcommit_memory = __read_mostly OVERCOMMIT_GUESS;  /* heuristic overcommit */
+int sysctl_overcommit_ratio = __read_mostly 50;  /* default is 50% */
 int sysctl_max_map_count __read_mostly = DEFAULT_MAX_MAP_COUNT;
-struct percpu_counter vm_committed_as;
+struct percpu_counter vm_committed_as ____cacheline_aligned_in_smp;
 
 /*
  * Check that a process has enough memory to allocate a new virtual
@@ -252,7 +252,10 @@ SYSCALL_DEFINE1(brk, unsigned long, brk)
 	down_write(&mm->mmap_sem);
 
 #ifdef CONFIG_COMPAT_BRK
-	min_brk = mm->end_code;
+	if (mm->start_brk > PAGE_ALIGN(mm->end_data))
+                min_brk = mm->start_brk;
+        else
+                min_brk = mm->end_data;
 #else
 	min_brk = mm->start_brk;
 #endif

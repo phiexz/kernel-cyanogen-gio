@@ -1077,10 +1077,10 @@ static unsigned int find_next_to_unuse(struct swap_info_struct *si,
 			i = 1;
 		}
                 if (frontswap) {
-                        if (frontswap_test(si, i))
+                       if (frontswap_test(si, i))
                                  break;
-                else
-                        continue;
+                       else
+                                 continue;
                 }
 		count = si->swap_map[i];
 		if (count && swap_count(count) != SWAP_MAP_BAD)
@@ -1093,12 +1093,9 @@ static unsigned int find_next_to_unuse(struct swap_info_struct *si,
  * We completely avoid races by reading each swap page in advance,
  * and then search for the process using it.  All the necessary
  * page table adjustments can then be made atomically.
- *
- * if the boolean frontswap is true, only unuse pages_to_unuse pages;
- * pages_to_unuse==0 means all pages
  */
 int try_to_unuse(unsigned int type, bool frontswap,
-                             unsigned long pages_to_unuse)
+                            unsigned long pages_to_unuse)
 {
 	struct swap_info_struct *si = swap_info[type];
 	struct mm_struct *start_mm;
@@ -1299,8 +1296,8 @@ int try_to_unuse(unsigned int type, bool frontswap,
 		 */
 		cond_resched();
                 if (frontswap && pages_to_unuse > 0) {
-                    if (!--pages_to_unuse)
-                             break;
+                         if (!--pages_to_unuse)
+                                      break;
                 }
 	}
 
@@ -2062,12 +2059,10 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
 		error = -EINVAL;
 		goto bad_swap;
 	}
-
-        /* frontswap enabled? set up bit-per-page map for frontswap */
         if (frontswap_enabled) {
                 frontswap_map = vmalloc(maxpages / sizeof(long));
                 if (frontswap_map)
-                          memset(frontswap_map, 0, maxpages / sizeof(long));
+                         memset(frontswap_map, 0, maxpages / sizeof(long));
         }
 
 	if (p->bdev) {
@@ -2299,7 +2294,7 @@ int valid_swaphandles(swp_entry_t entry, unsigned long *offset)
 	spin_lock(&swap_lock);
         if (frontswap_test(si, target)) {
                 spin_unlock(&swap_lock);
-            return 0;
+                return 0;
         }
 	if (end > si->max)	/* don't go beyond end of map */
 		end = si->max;
@@ -2311,7 +2306,6 @@ int valid_swaphandles(swp_entry_t entry, unsigned long *offset)
 			break;
 		if (swap_count(si->swap_map[toff]) == SWAP_MAP_BAD)
 			break;
-                /* Don't read in frontswap pages */
                 if (frontswap_test(si, toff))
                         break;
 	}
@@ -2322,7 +2316,6 @@ int valid_swaphandles(swp_entry_t entry, unsigned long *offset)
 			break;
 		if (swap_count(si->swap_map[toff]) == SWAP_MAP_BAD)
 			break;
-                /* Don't read in frontswap pages */
                 if (frontswap_test(si, toff))
                         break;
 	}
