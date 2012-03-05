@@ -1,0 +1,14 @@
+#
+# tassuv module configuration
+#
+
+config Tass_UNDERVOLT
+	tristate "Tass undervolt"
+	help
+	  Say Y here if you want to build an undervolt module for Tass
+
+	  If unsure, say N.
+
+	  To compile this module, choose M here: the
+	  module will be called tassuv.
+

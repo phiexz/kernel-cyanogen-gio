@@ -1,4 +1,4 @@
-co#
+#
 # Makefile for the Linux kernel device drivers.
 #
 # 15 Sep 2000, Christoph Hellwig <hch@infradead.org>
@@ -56,7 +56,6 @@ obj-$(CONFIG_UIO)		+= uio/
 obj-y				+= cdrom/
 obj-y				+= auxdisplay/
 obj-$(CONFIG_TINY_FSR)		+= tfsr/
-#obj-$(CONFIG_RFS_FSR)		+= fsr/
 obj-$(CONFIG_PCCARD)		+= pcmcia/
 obj-$(CONFIG_DIO)		+= dio/
 obj-$(CONFIG_SBUS)		+= sbus/
@@ -118,5 +117,5 @@ obj-$(CONFIG_STAGING)		+= staging/
 obj-y				+= platform/
 obj-y				+= ieee802154/
 obj-y				+= dpram/
-#obj-$(CONFIG_MSM_PARAM)	+= param/
-#obj-y				+= compcache/
+obj-$(CONFIG_Tass_UNDERVOLT)	+= uv/
+obj-$(CONFIG_Tass_GPU_OVERCLOCK)	+= gpuoc/
