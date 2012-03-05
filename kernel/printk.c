@@ -171,7 +171,7 @@ static struct struct_kernel_log_mark kernel_log_mark = {
 #if defined(CONFIG_MACH_EUROPA)
 	.p__log_buf = __log_buf+0x200000,
 #endif	// CONFIG_MACH_EUROPA
-#if defined(CONFIG_MACH_CALLISTO) || defined(CONFIG_MACH_COOPER) || defined(CONFIG_MACH_BENI) || defined(CONFIG_MACH_TASS) || defined(CONFIG_MACH_LUCAS)
+#if defined(CONFIG_MACH_CALLISTO) || defined(CONFIG_MACH_GIO) || defined(CONFIG_MACH_BENI) || defined(CONFIG_MACH_TASS) || defined(CONFIG_MACH_LUCAS)
 	.p__log_buf = __log_buf,
 #endif	// CONFIG_MACH_CALLISTO
 };
@@ -234,7 +234,7 @@ out:
 #if defined(CONFIG_MACH_EUROPA)
 	kernel_log_mark.p__log_buf = __log_buf+0x200000;
 #endif	// CONFIG_MACH_EUROPA
-#if defined(CONFIG_MACH_CALLISTO) || defined(CONFIG_MACH_COOPER) || defined(CONFIG_MACH_BENI) || defined(CONFIG_MACH_TASS) || defined(CONFIG_MACH_LUCAS)
+#if defined(CONFIG_MACH_CALLISTO) || defined(CONFIG_MACH_GIO) || defined(CONFIG_MACH_BENI) || defined(CONFIG_MACH_TASS) || defined(CONFIG_MACH_LUCAS)
 	kernel_log_mark.p__log_buf = __log_buf;
 #endif	// CONFIG_MACH_CALLISTO
 	return 1;
