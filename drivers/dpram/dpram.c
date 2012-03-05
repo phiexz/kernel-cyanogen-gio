@@ -42,9 +42,9 @@
 
 #include "dpram.h"
 // DGS
-#include "./fsr/Inc/FSR.h"
-#include "./fsr/Inc/FSR_BML.h"
-#include "./fsr/Inc/FSR_LLD_4K_OneNAND.h"
+#include "./fsr/FSR.h"
+#include "./fsr/FSR_BML.h"
+#include "./fsr/FSR_LLD_4K_OneNAND.h"
 
 #include "../../arch/arm/mach-msm/smd_private.h"
 #include "../../arch/arm/mach-msm/proc_comm.h"
