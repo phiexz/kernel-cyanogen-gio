@@ -1,8 +1,8 @@
-/* This file is auto generated, version 2 */
+/* This file is auto generated, version 3 */
 /*  PREEMPT */
 #define UTS_MACHINE "arm"
-#define UTS_VERSION "#1 PREEMPT Mon Mar 5 23:38:18 WIT 2012"
-#define LINUX_COMPILE_TIME "23:38:18"
+#define UTS_VERSION "#1 PREEMPT Wed Mar 7 16:42:20 WIT 2012"
+#define LINUX_COMPILE_TIME "16:42:20"
 #define LINUX_COMPILE_BY "squadzone"
 #define LINUX_COMPILE_HOST "Andro-id_dev-pc"
 #define LINUX_COMPILE_DOMAIN "(none)"

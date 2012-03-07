@@ -38,7 +38,7 @@
 #define DET_CHECK_TIME_MS	200		/* 200ms */
 #define WAKE_LOCK_TIME		(HZ * 5)	/* 5 sec */
 
-#ifdef CONFIG_MACH_COOPER
+#if (defined(CONFIG_MACH_COOPER) || defined(CONFIG_MACH_GIO))
 #undef FEATURE_HSSD
 #endif
 
