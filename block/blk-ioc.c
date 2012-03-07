@@ -58,6 +58,7 @@ static void hlist_sched_exit(struct io_context *ioc, struct hlist_head *list)
 
 	if (!hlist_empty(list)) {
 		struct cfq_io_context *cic;
+
 		cic = list_entry(list->first, struct cfq_io_context, cic_list);
 		cic->exit(ioc);
 	}
@@ -75,9 +76,8 @@ void exit_io_context(struct task_struct *task)
 	task_unlock(task);
 
 	if (atomic_dec_and_test(&ioc->nr_tasks)) {
-		hlist_sched_exit(ioc, &ioc->cic_list);
-		hlist_sched_exit(ioc, &ioc->bfq_cic_list);
-
+	  hlist_sched_exit(ioc, &ioc->cic_list);
+	  hlist_sched_exit(ioc, &ioc->bfq_cic_list);
 	}
 	put_io_context(ioc);
 }
@@ -92,6 +92,7 @@ struct io_context *alloc_io_context(gfp_t gfp_flags, int node)
 		atomic_set(&ret->nr_tasks, 1);
 		spin_lock_init(&ret->lock);
 		bitmap_zero(ret->ioprio_changed, IOC_IOPRIO_CHANGED_BITS);
+		ret->ioprio = 0;
 		ret->last_waited = 0; /* doesn't matter... */
 		ret->nr_batch_requests = 0; /* because this is 0 */
 		INIT_RADIX_TREE(&ret->radix_root, GFP_ATOMIC | __GFP_HIGH);

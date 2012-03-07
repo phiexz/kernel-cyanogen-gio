@@ -70,7 +70,7 @@ int set_task_ioprio(struct task_struct *task, int ioprio)
 		/* make sure schedulers see the new ioprio value */
 		wmb();
 		for (i = 0; i < IOC_IOPRIO_CHANGED_BITS; i++)
-		  set_bit(i, ioc->ioprio_changed);
+			set_bit(i, ioc->ioprio_changed);
 	}
 
 	task_unlock(task);
@@ -108,12 +108,7 @@ SYSCALL_DEFINE3(ioprio_set, int, which, int, who, int, ioprio)
 	}
 
 	ret = -ESRCH;
-	/*
-	 * We want IOPRIO_WHO_PGRP/IOPRIO_WHO_USER to be "atomic",
-	 * so we can't use rcu_read_lock(). See re-copy of ->ioprio
-	 * in copy_process().
-	 */
-	read_lock(&tasklist_lock);
+	rcu_read_lock();
 	switch (which) {
 		case IOPRIO_WHO_PROCESS:
 			if (!who)
@@ -158,7 +153,7 @@ free_uid:
 			ret = -EINVAL;
 	}
 
-	read_unlock(&tasklist_lock);
+	rcu_read_unlock();
 	return ret;
 }
 
@@ -202,7 +197,7 @@ SYSCALL_DEFINE2(ioprio_get, int, which, int, who)
 	int ret = -ESRCH;
 	int tmpio;
 
-	read_lock(&tasklist_lock);
+	rcu_read_lock();
 	switch (which) {
 		case IOPRIO_WHO_PROCESS:
 			if (!who)
@@ -255,6 +250,6 @@ SYSCALL_DEFINE2(ioprio_get, int, which, int, who)
 			ret = -EINVAL;
 	}
 
-	read_unlock(&tasklist_lock);
+	rcu_read_unlock();
 	return ret;
 }

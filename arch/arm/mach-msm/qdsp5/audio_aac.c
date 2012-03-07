@@ -617,12 +617,12 @@ static void audplay_send_data(struct audio *audio, unsigned needed)
 			frame->used = 0;
 			audio->out_tail ^= 1;
 			wake_up(&audio->write_wait);
-		 } else if ((audio->out[0].used == 0) &&
-		   (audio->out[1].used == 0) &&
-		   (audio->eos_in_progress)) {
+		} else if ((audio->out[0].used == 0) &&
+			 (audio->out[1].used == 0) &&
+			 (audio->eos_in_progress)) {
 			wake_up(&audio->write_wait);
 		}
-		
+
 	}
 
 	if (audio->out_needed) {
@@ -1133,7 +1133,7 @@ static long audio_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 	return rc;
 }
 /* Only useful in tunnel-mode */
-static int audaac_fsync(struct file *file, int datasync)
+static int audaac_fsync(struct file *file, struct dentry *dentry, int datasync)
 {
 	struct audio *audio = file->private_data;
 	struct buffer *frame;
@@ -1310,7 +1310,7 @@ static int audaac_process_eos(struct audio *audio,
 	MM_DBG("Now signal input EOS after reserved bytes %d %d %d\n",
 		audio->out[0].used, audio->out[1].used, audio->out_needed);
 	frame = audio->out + audio->out_head;
-	
+
 	spin_lock_irqsave(&audio->dsp_lock, flags);
 	audio->eos_in_progress = 1;
 	spin_unlock_irqrestore(&audio->dsp_lock, flags);
@@ -1321,7 +1321,7 @@ static int audaac_process_eos(struct audio *audio,
 		audio->out[1].used == 0)
 		|| (audio->stopped)
 		|| (audio->wflush));
-	
+
 	spin_lock_irqsave(&audio->dsp_lock, flags);
 	audio->eos_in_progress = 0;
 	spin_unlock_irqrestore(&audio->dsp_lock, flags);
@@ -1522,7 +1522,9 @@ static void audaac_post_event(struct audio *audio, int type,
 	spin_unlock_irqrestore(&audio->event_queue_lock, flags);
 	wake_up(&audio->event_wait);
 }
+#endif
 
+#ifdef CONFIG_HAS_EARLYSUSPEND
 static void audaac_suspend(struct early_suspend *h)
 {
 	struct audaac_suspend_ctl *ctl =

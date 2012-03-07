@@ -356,11 +356,11 @@ struct usb_composite_dev {
 	spinlock_t			lock;
 
 	/* switch indicating connected/disconnected state */
-	struct switch_dev sw_connected;
-	/* switch indicating current configuration */
-	struct switch_dev sw_config;
-	/* current connected state for sw_connected */
-	bool connected;
+  	struct switch_dev    sw_connected;
+  	/* switch indicating current configuration */
+  	struct switch_dev    sw_config;
+  	/* current connected state for sw_connected */
+  	bool        connected;
 	struct work_struct switch_work;
 };
 

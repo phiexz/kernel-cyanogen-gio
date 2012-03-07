@@ -272,9 +272,8 @@ static irqreturn_t sec_jack_send_key_irq_thread(int irq, void *dev_id)
 			return IRQ_HANDLED;
 		}
 #ifdef SUPPORT_EARADC_CHECK
-		else if (adc<1 || adc >105)
+		else if (adc > 120)
 		{
-			pr_info(MODULE_NAME "sendend adc = %d dropped\n", adc);
 			return IRQ_HANDLED;
 		}
 #endif

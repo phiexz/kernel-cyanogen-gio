@@ -26,9 +26,6 @@
 #define BFQ_DEFAULT_GRP_IOPRIO	0
 #define BFQ_DEFAULT_GRP_CLASS	IOPRIO_CLASS_BE
 
-typedef u64 bfq_timestamp_t;
-typedef unsigned long bfq_service_t;
-
 struct bfq_entity;
 
 /**
@@ -52,7 +49,7 @@ struct bfq_service_tree {
 	struct bfq_entity *first_idle;
 	struct bfq_entity *last_idle;
 
-	bfq_timestamp_t vtime;
+	u64 vtime;
 	unsigned long wsum;
 };
 
@@ -137,14 +134,14 @@ struct bfq_entity {
 
 	int on_st;
 
-	bfq_timestamp_t finish;
-	bfq_timestamp_t start;
+	u64 finish;
+	u64 start;
 
 	struct rb_root *tree;
 
-	bfq_timestamp_t min_start;
+	u64 min_start;
 
-	bfq_service_t service, budget;
+	unsigned long service, budget;
 	unsigned short weight, new_weight;
 	unsigned short orig_weight;
 
@@ -245,7 +242,7 @@ struct bfq_data {
 	ktime_t last_idling_start;
 	int peak_rate_samples;
 	u64 peak_rate;
-	bfq_service_t bfq_max_budget;
+	unsigned long bfq_max_budget;
 
 	unsigned int cic_index;
 	struct list_head cic_list;
@@ -319,7 +316,7 @@ struct bfq_queue {
 
 	struct bfq_entity entity;
 
-	bfq_service_t max_budget;
+	unsigned long max_budget;
 	unsigned long budget_timeout;
 
 	int dispatched;
@@ -339,8 +336,8 @@ struct bfq_queue {
 	pid_t pid;
 
 	/* weight-raising fileds */
- 	u64 last_rais_start_finish, soft_rt_next_start;
- 	unsigned int raising_coeff;
+	u64 last_rais_start_finish, soft_rt_next_start;
+	unsigned int raising_coeff;
 };
 
 enum bfqq_state_flags {
@@ -533,7 +530,7 @@ static inline struct bfq_data *bfq_get_bfqd_locked(void **ptr,
 	rcu_read_lock();
 	bfqd = rcu_dereference(*(struct bfq_data **)ptr);
 
-	if (bfqd != NULL && ! ((unsigned long) bfqd & CIC_DEAD_KEY)) {
+	if (bfqd != NULL && !((unsigned long) bfqd & CIC_DEAD_KEY)) {
 		spin_lock_irqsave(bfqd->queue->queue_lock, *flags);
 		if (*ptr == bfqd)
 			goto out;

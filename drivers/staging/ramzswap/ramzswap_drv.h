@@ -208,3 +208,4 @@ static u64 stat64_read(struct ramzswap *rzs, u64 *v)
 #endif /* CONFIG_RAMZSWAP_STATS */
 
 #endif
+

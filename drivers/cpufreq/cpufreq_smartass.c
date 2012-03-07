@@ -1,27 +1,27 @@
 /*
- * drivers/cpufreq/cpufreq_smartass.c
- *
- * Copyright (C) 2010 Google, Inc.
- *
- * This software is licensed under the terms of the GNU General Public
- * License version 2, as published by the Free Software Foundation, and
- * may be copied, distributed, and modified under those terms.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * Author: Erasmux
- *
- * Based on the interactive governor By Mike Chan (mike@android.com)
- * which was adaptated to 2.6.29 kernel by Nadlabak (pavel@doshaska.net)
- * 
- * requires to add
- * EXPORT_SYMBOL_GPL(nr_running);
- * at the end of kernel/sched.c
- *
- */
+* drivers/cpufreq/cpufreq_smartass.c
+*
+* Copyright (C) 2010 Google, Inc.
+*
+* This software is licensed under the terms of the GNU General Public
+* License version 2, as published by the Free Software Foundation, and
+* may be copied, distributed, and modified under those terms.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* Author: Erasmux
+*
+* Based on the interactive governor By Mike Chan (mike@android.com)
+* which was adaptated to 2.6.29 kernel by Nadlabak (pavel@doshaska.net)
+*
+* requires to add
+* EXPORT_SYMBOL_GPL(nr_running);
+* at the end of kernel/sched.c
+*
+*/
 
 #include <linux/cpu.h>
 #include <linux/cpumask.h>
@@ -66,83 +66,83 @@ enum {
 };
 
 /*
- * Combination of the above debug flags.
- */
+* Combination of the above debug flags.
+*/
 static unsigned long debug_mask;
 
 /*
- * The minimum amount of time to spend at a frequency before we can ramp up.
- */
-#define DEFAULT_UP_RATE_US 20000;
+* The minimum amount of time to spend at a frequency before we can ramp up.
+*/
+#define DEFAULT_UP_RATE_US 24000;
 static unsigned long up_rate_us;
 
 /*
- * The minimum amount of time to spend at a frequency before we can ramp down.
- */
-#define DEFAULT_DOWN_RATE_US 40000;
+* The minimum amount of time to spend at a frequency before we can ramp down.
+*/
+#define DEFAULT_DOWN_RATE_US 49000;
 static unsigned long down_rate_us;
 
 /*
- * When ramping up frequency with no idle cycles jump to at least this frequency.
- * Zero disables. Set a very high value to jump to policy max freqeuncy.
- */
-#define DEFAULT_UP_MIN_FREQ 787200
+* When ramping up frequency with no idle cycles jump to at least this frequency.
+* Zero disables. Set a very high value to jump to policy max freqeuncy.
+*/
+#define DEFAULT_UP_MIN_FREQ 0
 static unsigned int up_min_freq;
 
 /*
- * When sleep_max_freq>0 the frequency when suspended will be capped
- * by this frequency. Also will wake up at max frequency of policy
- * to minimize wakeup issues.
- * Set sleep_max_freq=0 to disable this behavior.
- */
+* When sleep_max_freq>0 the frequency when suspended will be capped
+* by this frequency. Also will wake up at max frequency of policy
+* to minimize wakeup issues.
+* Set sleep_max_freq=0 to disable this behavior.
+*/
 #define DEFAULT_SLEEP_MAX_FREQ 320000
 static unsigned int sleep_max_freq;
 
 /*
- * The frequency to set when waking up from sleep.
- * When sleep_max_freq=0 this will have no effect.
- */
-#define DEFAULT_SLEEP_WAKEUP_FREQ 787200
+* The frequency to set when waking up from sleep.
+* When sleep_max_freq=0 this will have no effect.
+*/
+#define DEFAULT_SLEEP_WAKEUP_FREQ 1299999
 static unsigned int sleep_wakeup_freq;
 
 /*
- * When awake_min_freq>0 the frequency when not suspended will not
- * go below this frequency.
- * Set awake_min_freq=0 to disable this behavior.
- */
-#define DEFAULT_AWAKE_MIN_FREQ 245760
+* When awake_min_freq>0 the frequency when not suspended will not
+* go below this frequency.
+* Set awake_min_freq=0 to disable this behavior.
+*/
+#define DEFAULT_AWAKE_MIN_FREQ 480000
 static unsigned int awake_min_freq;
 
 /*
- * Sampling rate, I highly recommend to leave it at 2.
- */
+* Sampling rate, I highly recommend to leave it at 2.
+*/
 #define DEFAULT_SAMPLE_RATE_JIFFIES 2
 static unsigned int sample_rate_jiffies;
 
 /*
- * Freqeuncy delta when ramping up.
- * zero disables and causes to always jump straight to max frequency.
- */
-#define DEFAULT_RAMP_UP_STEP 245760;
+* Freqeuncy delta when ramping up.
+* zero disables and causes to always jump straight to max frequency.
+*/
+#define DEFAULT_RAMP_UP_STEP 0
 static unsigned int ramp_up_step;
 
 /*
- * Freqeuncy delta when ramping down.
- * zero disables and will calculate ramp down according to load heuristic.
- */
-#define DEFAULT_RAMP_DOWN_STEP 0;
+* Freqeuncy delta when ramping down.
+* zero disables and will calculate ramp down according to load heuristic.
+*/
+#define DEFAULT_RAMP_DOWN_STEP 128000
 static unsigned int ramp_down_step;
 
 /*
- * CPU freq will be increased if measured load > max_cpu_load;
- */
-#define DEFAULT_MAX_CPU_LOAD 70
+* CPU freq will be increased if measured load > max_cpu_load;
+*/
+#define DEFAULT_MAX_CPU_LOAD 50
 static unsigned long max_cpu_load;
 
 /*
- * CPU freq will be decreased if measured load < min_cpu_load;
- */
-#define DEFAULT_MIN_CPU_LOAD 30
+* CPU freq will be decreased if measured load < min_cpu_load;
+*/
+#define DEFAULT_MIN_CPU_LOAD 25
 static unsigned long min_cpu_load;
 
 
@@ -240,8 +240,6 @@ static void cpufreq_smartass_timer(unsigned long data)
                 if (cputime64_sub(update_time, this_smartass->freq_change_time) < up_rate_us)
                         return;
 
-	if (!cpumask_test_cpu(smp_processor_id(), policy->cpus))
-			return;
 
                 this_smartass->force_ramp_up = 1;
                 cpumask_set_cpu(data, &work_cpumask);
@@ -250,12 +248,12 @@ static void cpufreq_smartass_timer(unsigned long data)
         }
 
         /*
-         * There is a window where if the cpu utlization can go from low to high
-         * between the timer expiring, delta_idle will be > 0 and the cpu will
-         * be 100% busy, preventing idle from running, and this timer from
-         * firing. So setup another timer to fire to check cpu utlization.
-         * Do not setup the timer if there is no scheduled work or if at max speed.
-         */
+* There is a window where if the cpu utlization can go from low to high
+* between the timer expiring, delta_idle will be > 0 and the cpu will
+* be 100% busy, preventing idle from running, and this timer from
+* firing. So setup another timer to fire to check cpu utlization.
+* Do not setup the timer if there is no scheduled work or if at max speed.
+*/
         if (policy->cur < this_smartass->max_speed && !timer_pending(&this_smartass->timer) && nr_running() > 0)
                 reset_timer(data,this_smartass);
 
@@ -263,9 +261,9 @@ static void cpufreq_smartass_timer(unsigned long data)
                 return;
 
         /*
-         * Do not scale down unless we have been at this frequency for the
-         * minimum sample time.
-         */
+* Do not scale down unless we have been at this frequency for the
+* minimum sample time.
+*/
         if (cputime64_sub(update_time, this_smartass->freq_change_time) < down_rate_us)
                 return;
 
@@ -393,11 +391,11 @@ static ssize_t show_down_rate_us(struct cpufreq_policy *policy, char *buf)
 static ssize_t store_down_rate_us(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
         ssize_t res;
-	unsigned long input;
-	res = strict_strtoul(buf, 0, &input);
-	if (res >= 0 && input >= 1000 && input <= 100000000)
-	  down_rate_us = input;
-	return res;
+        unsigned long input;
+        res = strict_strtoul(buf, 0, &input);
+        if (res >= 0 && input >= 0 && input <= 100000000)
+          down_rate_us = input;
+        return res;
 }
 
 static struct freq_attr down_rate_us_attr = __ATTR(down_rate_us, 0644,
@@ -599,9 +597,9 @@ static int cpufreq_governor_smartass(struct cpufreq_policy *new_policy,
                         return -EINVAL;
 
                 /*
-                 * Do not register the idle hook and create sysfs
-                 * entries if we have already done so.
-                 */
+* Do not register the idle hook and create sysfs
+* entries if we have already done so.
+*/
                 if (atomic_inc_return(&active_count) <= 1) {
                         rc = sysfs_create_group(&new_policy->kobj, &smartass_attr_group);
                         if (rc)
@@ -676,22 +674,21 @@ static void smartass_suspend(int cpu, int suspend)
 }
 
 static void smartass_early_suspend(struct early_suspend *handler) {
-	int i;
-	suspended = 1;
-	for_each_online_cpu(i)
-		smartass_suspend(i,1);
+        int i;
+        for_each_online_cpu(i)
+                smartass_suspend(i,1);
 }
 
 static void smartass_late_resume(struct early_suspend *handler) {
-	int i;
-	suspended = 0;
-	for_each_online_cpu(i)
-		smartass_suspend(i,0);
+        int i;
+        for_each_online_cpu(i)
+                smartass_suspend(i,0);
 }
 
 static struct early_suspend smartass_power_suspend = {
-	.suspend = smartass_early_suspend,
-	.resume = smartass_late_resume,
+        .suspend = smartass_early_suspend,
+        .resume = smartass_late_resume,
+.level = EARLY_SUSPEND_LEVEL_DISABLE_FB + 1,
 };
 
 static int __init cpufreq_smartass_init(void)
@@ -759,5 +756,5 @@ static void __exit cpufreq_smartass_exit(void)
 module_exit(cpufreq_smartass_exit);
 
 MODULE_AUTHOR ("Erasmux");
-MODULE_DESCRIPTION ("'cpufreq_smartass' - A smart cpufreq governor");
+MODULE_DESCRIPTION ("'cpufreq_smartass' - A smart cpufreq governor optimized for the blade!");
 MODULE_LICENSE ("GPL");

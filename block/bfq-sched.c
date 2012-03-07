@@ -86,7 +86,7 @@ static inline void bfq_check_next_active(struct bfq_sched_data *sd,
  *
  * Return @a > @b, dealing with wrapping correctly.
  */
-static inline int bfq_gt(bfq_timestamp_t a, bfq_timestamp_t b)
+static inline int bfq_gt(u64 a, u64 b)
 {
 	return (s64)(a - b) > 0;
 }
@@ -109,10 +109,10 @@ static inline struct bfq_queue *bfq_entity_to_bfqq(struct bfq_entity *entity)
  * @service: amount of service.
  * @weight: scale factor (weight of an entity or weight sum).
  */
-static inline bfq_timestamp_t bfq_delta(bfq_service_t service,
+static inline u64 bfq_delta(unsigned long service,
 					unsigned long weight)
 {
-	bfq_timestamp_t d = (bfq_timestamp_t)service << WFQ_SERVICE_SHIFT;
+	u64 d = (u64)service << WFQ_SERVICE_SHIFT;
 
 	do_div(d, weight);
 	return d;
@@ -124,7 +124,7 @@ static inline bfq_timestamp_t bfq_delta(bfq_service_t service,
  * @service: the service to be charged to the entity.
  */
 static inline void bfq_calc_finish(struct bfq_entity *entity,
-				   bfq_service_t service)
+				   unsigned long service)
 {
 	struct bfq_queue *bfqq = bfq_entity_to_bfqq(entity);
 
@@ -566,7 +566,7 @@ __bfq_entity_update_weight_prio(struct bfq_service_tree *old_st,
  * are synchronized every time a new bfqq is selected for service.  By now,
  * we keep it to better check consistency.
  */
-static void bfq_bfqq_served(struct bfq_queue *bfqq, bfq_service_t served)
+static void bfq_bfqq_served(struct bfq_queue *bfqq, unsigned long served)
 {
 	struct bfq_entity *entity = &bfqq->entity;
 	struct bfq_service_tree *st;

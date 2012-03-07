@@ -1,6 +1,8 @@
 #ifndef _NF_TPROXY_CORE_H
 #define _NF_TPROXY_CORE_H
 
+#define NFT_LOOKUP_ANY         0
+
 #include <linux/types.h>
 #include <linux/in.h>
 #include <linux/skbuff.h>

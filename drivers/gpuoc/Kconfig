@@ -1,0 +1,14 @@
+#
+# TASS module configuration
+#
+
+config Tass_GPU_OVERCLOCK
+	tristate "TASS GPU Overclock"
+	help
+	  Say Y here if you want to build an overclock module for Tass
+
+	  If unsure, say N.
+
+	  To compile this module, choose M here: the
+	  module will be called gpuoc.ko.
+

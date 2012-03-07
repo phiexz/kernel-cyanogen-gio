@@ -14,6 +14,12 @@
  *
  */
 
+/*===========================================================================
+when       who       what, where, why                        comment tag
+--------   ----    -------------------------------------    ----------------------------------
+2011-12-17  chenjun  add audio loopback                       TASS_Audio-LB_CJ_1
+===========================================================================*/
+
 #ifndef __LINUX_MSM_AUDIO_H
 #define __LINUX_MSM_AUDIO_H
 
@@ -240,6 +246,8 @@ struct msm_snd_endpoint {
 
 #define SND_AVC_CTL _IOW(SND_IOCTL_MAGIC, 6, unsigned *)
 #define SND_AGC_CTL _IOW(SND_IOCTL_MAGIC, 7, unsigned *)
+
+#define SND_SET_AUDIO_LOOPBACK _IOW(SND_IOCTL_MAGIC, 8, unsigned *)
 
 struct msm_snd_extamp_config {
  uint32_t device;
