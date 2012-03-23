@@ -43,7 +43,7 @@ else
 	TIMESTAMP=$KBUILD_BUILD_TIMESTAMP
 fi
 
-UTS_VERSION="#$(shell date +%Y%m%d)"
+UTS_VERSION="#`date +%Y%m%d`-px"
 CONFIG_FLAGS=""
 if [ -n "$SMP" ] ; then CONFIG_FLAGS="SMP"; fi
 if [ -n "$PREEMPT" ] ; then CONFIG_FLAGS="$CONFIG_FLAGS PREEMPT"; fi
