@@ -307,6 +307,54 @@ static int init_task_group_load = INIT_TASK_GROUP_LOAD;
  */
 struct task_group init_task_group;
 
+/* return group to which a task belongs */
+static inline struct task_group *task_group(struct task_struct *p)
+{
+
+#ifdef CONFIG_CGROUP_SCHED
+	struct task_group *tg;
+	struct cgroup_subsys_state *css;
+
+	css = task_subsys_state(p, cpu_cgroup_subsys_id);
+
+	tg = container_of(css, struct task_group, css);
+
+	return autogroup_task_group(p, tg);
+#else
+	struct task_group *tg;
+
+	tg = &init_task_group;
+
+	return tg;
+#endif
+}
+
+/* Change a task's cfs_rq and parent entity if it moves across CPUs/groups */
+static inline void set_task_rq(struct task_struct *p, unsigned int cpu)
+{
+#if defined(CONFIG_FAIR_GROUP_SCHED) || defined(CONFIG_RT_GROUP_SCHED)
+	struct task_group *tg = task_group(p);
+#endif
+
+#ifdef CONFIG_FAIR_GROUP_SCHED
+	p->se.cfs_rq = tg->cfs_rq[cpu];
+	p->se.parent = tg->se[cpu];
+#endif
+
+#ifdef CONFIG_RT_GROUP_SCHED
+	p->rt.rt_rq  = tg->rt_rq[cpu];
+	p->rt.parent = tg->rt_se[cpu];
+#endif
+}
+
+#else
+
+static inline void set_task_rq(struct task_struct *p, unsigned int cpu) { }
+static inline struct task_group *task_group(struct task_struct *p)
+{
+	return NULL;
+}
+
 #endif	/* CONFIG_CGROUP_SCHED */
 
 /* CFS-related fields in a runqueue */
