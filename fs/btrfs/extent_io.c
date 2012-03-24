@@ -10,6 +10,7 @@
 #include <linux/swap.h>
 #include <linux/writeback.h>
 #include <linux/pagevec.h>
+#include <linux/cleancache.h>
 #include "extent_io.h"
 #include "extent_map.h"
 #include "compat.h"
@@ -2026,6 +2027,12 @@ static int __extent_read_full_page(struct extent_io_tree *tree,
 	unsigned long this_bio_flag = 0;
 
 	set_page_extent_mapped(page);
+	  if (!PageUptodate(page)) {
+	    if (cleancache_get_page(page) == 0) {
+	      BUG_ON(blocksize != PAGE_SIZE);
+	      goto out;
+	    }
+	  }
 
 	end = page_end;
 	while (1) {
@@ -2151,6 +2158,7 @@ static int __extent_read_full_page(struct extent_io_tree *tree,
 		cur = cur + iosize;
 		page_offset += iosize;
 	}
+out:
 	if (!nr) {
 		if (!PageError(page))
 			SetPageUptodate(page);

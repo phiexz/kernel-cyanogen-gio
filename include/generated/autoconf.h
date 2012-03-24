@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.35.7
- * Fri Feb 10 23:22:32 2012
+ * Fri Mar 23 22:40:35 2012
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_RING_BUFFER 1
@@ -145,7 +145,6 @@
 #define CONFIG_I2C_GPIO 1
 #define CONFIG_PPPOE 1
 #define CONFIG_XFRM_MIGRATE 1
-#define CONFIG_KEYPAD_TOUCH_BLN 1
 #define CONFIG_NETFILTER_XT_MATCH_OWNER 1
 #define CONFIG_OVERCLOCK_AHB 1
 #define CONFIG_IP_ADVANCED_ROUTER 1
@@ -701,6 +700,7 @@
 #define CONFIG_MEDIA_TUNER_TEA5761 1
 #define CONFIG_USB_GADGET_SELECTED 1
 #define CONFIG_NLS_UTF8 1
+#define CONFIG_NETFILTER_TPROXY 1
 #define CONFIG_MSM_ADSP 1
 #define CONFIG_SAMSUNG_JACK 1
 #define CONFIG_NEW_LEDS 1
