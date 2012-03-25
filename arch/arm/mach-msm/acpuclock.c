@@ -239,7 +239,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_800[] = {
 	{ 1, 480000, ACPU_PLL_0, 4, 1, 160000, 2, 6, 122880 },
 	{ 1, 672000, ACPU_PLL_2, 2, 0, 168000, 3, 7, 122880 },
 	{ 1, 787200, ACPU_PLL_2, 2, 0, 196800, 3, 7, 122880 },
-	{ 1, 806400, ACPU_PLL_2, 2, 0, 201600, 3, 7, 122880 },
+	{ 1, 800000, ACPU_PLL_2, 2, 0, 200000, 3, 7, 120000 },
 	{ 1, 825600, ACPU_PLL_2, 2, 0, 206400, 3, 7, 122880 },
 	{ 1, 844800, ACPU_PLL_2, 2, 0, 211200, 3, 7, 122880 },
 	{ 1, 864000, ACPU_PLL_2, 2, 0, 216000, 3, 7, 122880 },
@@ -455,7 +455,7 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 	}
 
 	// Perform overclocking if requested
-	if(hunt_s->a11clk_khz>787200) {
+	if(hunt_s->a11clk_khz>800000) {
 		// Change the speed of PLL2
 		writel(hunt_s->a11clk_khz/19200, PLLn_L_VAL(2));
 		udelay(50);
@@ -473,7 +473,7 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 	writel(reg_clksel, A11S_CLK_SEL_ADDR);
 
 	// Recover from overclocking
-	if(hunt_s->a11clk_khz<=787200) {
+	if(hunt_s->a11clk_khz<=800000) {
 		// Restore the speed of PLL2
 		writel(PLL_800_MHZ, PLLn_L_VAL(2));
 		udelay(50);
