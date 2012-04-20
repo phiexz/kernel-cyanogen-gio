@@ -2029,8 +2029,9 @@ msmsdcc_runtime_suspend(struct device *dev)
 	if (mmc) {
 #if 0 /* ATHENV +++ avoid this otherwise wakelock will prevent system suspend*/
 		host->sdcc_suspending = 1;
-#endif /* ATHENV --- */
 		mmc->suspend_task = current;
+
+#endif /* ATHENV --- */
 
 		/*
 		 * If the clocks are already turned off by SDIO clients (as

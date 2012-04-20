@@ -169,4 +169,4 @@ else
 	fi
 fi
 
-echo "$res"
+echo "$res" | tr -d y,t,z,v,0-9,q,w,f,g,c,m
