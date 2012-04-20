@@ -2232,8 +2232,14 @@ static noinline struct module *load_module(void __user *umod,
 	} else if (!same_magic(modmagic, vermagic, versindex)) {
 		printk(KERN_ERR "%s: version magic '%s' should be '%s'\n",
 		       mod->name, modmagic, vermagic);
+#ifdef CONFIG_MODULE_FORCE_VERMAGIC
+	err = try_to_force_load(mod, "magic");
+	if (err)
+	  goto free_hdr;
+#else
 		err = -ENOEXEC;
 		goto free_hdr;
+#endif
 	}
 
 	staging = get_modinfo(sechdrs, infoindex, "staging");
@@ -3182,3 +3188,4 @@ int module_get_iter_tracepoints(struct tracepoint_iter *iter)
 	return found;
 }
 #endif
+
