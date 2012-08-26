@@ -191,8 +191,9 @@ export KBUILD_BUILDHOST := $(SUBARCH)
 #ARCH		?= $(SUBARCH)
 #CROSS_COMPILE	?=
 #CROSS_COMPILE	?= $(CONFIG_CROSS_COMPILE:"%"=%)
-ARCH            =arm
-CROSS_COMPILE   = /home/dhiika/Sourcery_G++_Lite/bin/arm-none-eabi-
+ARCH            = arm
+#CROSS_COMPILE   = arm-none-eabi-
+CROSS_COMPILE   = /home/dhiika/dev/prebuilt/Sourcery_G++/bin/arm-none-eabi-
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)

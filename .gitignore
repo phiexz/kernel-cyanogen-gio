@@ -1,6 +1,11 @@
 *~
 *.o
 *.old
+*.bak
 .version
 .directory
 .mailmap
+.config
+.gitignore
+include/config/*
+include/generated/*
